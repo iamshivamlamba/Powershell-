@@ -1,0 +1,17 @@
+$usercred = Import-Clixml -Path "C:\Users\shivam.lamba\OneDrive - HCL Technologies Ltd\Desktop\pwd.xml"
+ $usercred
+ $usercred.UserName
+ $usercred.Password
+ $user = $usercred.UserName
+ $pwd = $usercred.Password
+ $credential = New-Object System.Management.Automation.PSCredential($user, $pwd)
+ $from = "shivamlamba350@outlook.com"
+ $to = "manasa6873@gmail.com"
+ $cc = "mohitsw2202@gmail.com"
+ $Attachments = "C:\Users\shivam.lamba\OneDrive - HCL Technologies Ltd\Desktop\fileandtime.txt"
+ $smtpserver = "smtp.outlook.com"
+ $smtpport = "587"
+ $subject = "Test Mail"
+ $body = "This is Test mail."
+ Send-MailMessage -From $from -To $to -Cc $cc -Subject $subject -Body $body -Attachments $Attachments -SmtpServer $smtpserver -Port $smtpport -Credential $credential -UseSsl  
+

@@ -1,0 +1,6 @@
+1. Get-Location
+2. Get-Process
+3. Get-Location
+4. Get-Service | Where-Object Status -EQ Running 
+ Get-Command -Name *Service | Select-Object Name.Version | Out-File 'C:\Users\Administrator.DEMO\Desktop/a.txt' -Append -Force 
+

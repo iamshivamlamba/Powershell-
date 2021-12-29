@@ -1,0 +1,122 @@
+ #Question1  
+Write-Host("Shivam Lamba")  
+Get-Service | Select-Object Status,Name,RequiredServices,DependentServices | Export-Csv -Path "C:\Users\Administrator.DEMO\Desktop\Output1.csv"  
+
+   #Question3  
+Write-Host("Shivam Lamba")  
+$serverlistpath = "C:\Users\Administrator.DEMO\Desktop\Servers.txt"  
+$serverlist = Get-Content -Path $serverlistpath -ErrorAction SilentlyContinue    
+foreach($server in $serverlist) 
+ {        
+$Test_connection = Test-Connection -ComputerName $server -Quiet -ErrorAction SilentlyContinue     
+Write-Host($server + " Mac Address")        
+$server | Getmac           
+Write-Host($server + " Ip ")         
+$ip = Test-Connection -ComputerName $server | Select -ExpandProperty IPV4Address        
+write-host $ip     }  
+
+  #Question7 
+Write-Host "Shivam Lamba" 
+$serverlistpath = "C:\Users\Administrator.DEMO\Desktop\Servers.txt" 
+$serverlist = Get-Content -Path $serverlistpath -ErrorAction SilentlyContinue 
+foreach($server in $serverlist) 
+{        Write-Host $server       
+         Get-Process -ComputerName $server c* | Select-Object Id, ProcessName, MachineName        }  
+
+
+#Question9
+Write-Host "Shivam Lamba"  
+$serverlistpath = "C:\Users\Administrator.DEMO\Desktop\Servers.txt" 
+$serverlist = Get-Content -Path $serverlistpath -ErrorAction SilentlyContinue  
+foreach($server in $serverlist) 
+{
+ $Test_connection = Test-Connection -ComputerName $server -Quiet -ErrorAction SilentlyContinue  
+write-host $server 
+Enter-PSSession $server 
+pwd 
+mkdir -path \$server\C$\windows\temp\test 
+Test-Path -path \$server\C$\windows\temp\test
+new-item -Path \$server\C$\windows\temp\test\que5.txt -ItemType 'file'  
+Test-Path \$server\C$\windows\temp\test\que5.txt   
+Exit-PSSession  } 
+
+
+#Question13
+write-host "Shivam Lamba"
+ if(test-path -path C:\install\npp.8.1.9.1.Installer.exe) 
+ {   
+$serverlistpath = "C:\Users\Administrator.DEMO\Desktop\Servers.txt"
+ #check your path  
+ $source = "C:\install"   
+$dest = "c$"   
+$testpath = "C:\install\npp.8.1.9.1.Installer.exe"   
+$serverlist = Get-Content -Path $serverlistpath -ErrorAction SilentlyContinue    
+foreach($server in $serverlist)   
+{  if (Test-Connection -Cn $server -Quiet)  
+{    Copy-Item $source -Destination \$server\$dest\downloads -Recurse -Force      
+if(Test-Path -Path $testpath)    
+ {    if($server -eq 'wfa')  
+{      Invoke-Command -ComputerName $server -ScriptBlock { \wfa\c$\Downloads\install\npp.8.1.9.1.Installer.exe /silent}}   
+elseif($server -eq 'dc1')  {    Invoke-Command -ComputerName $server -ScriptBlock {\dc1\c$\Downloads\install\npp.8.1.9.1.Installer.exe /silent}}   
+elseif($server -eq 'localhost')  {    Invoke-Command -ComputerName $server -ScriptBlock {\localhost\c:\Downloads\install\npp.8.1.9.1.Installer.exe /silent}}  
+ write-host -ForegroundColor Green "Installation successful on $server"    }  
+else{    write-host -ForegroundColor Red "Installation failed on $server"}  }     }}  
+else{ Start-Process https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.1.9.1/npp.8.1.9.1.Installer.exe  
+new-item -path 'C:\install' -ItemType 'directory'  
+Copy-Item C:\Users\Administrator.DEMO\Downloads\npp.8.1.9.1.Installer.exe -Destination C:\install  
+write-host -ForegroundColor DarkGreen "Downloaded and copied and run again"} 
+
+
+
+#Question17
+write-host "Shivam Lamba"
+ $serverlist = 'C:\Users\Administrator.DEMO\Desktop\Servers.txt'
+$server= Get-Content -Path $serverlist -ErrorAction SilentlyContinue
+foreach($s in $server)
+{
+$process= Get-process | Select-Object id, Name, CPU -First 10 | sort -Descending|Format-Table | Out-File 'C:\Users\Administrator.DEMO\Desktop\Output17.html'Write-Host($process)
+} 
+
+
+ #Question19 
+Get-WmiObject -Class win32_bios -ComputerName localhost, dc1, aiqum, wfa $Array | Out-GridView  
+
+
+  #Question21 
+Write-Host "Shivam Lamba" 
+$serverlistpath = "C:\Users\Administrator.DEMO\Desktop\Servers.txt" 
+$serverlist = Get-Content -Path $serverlistpath -ErrorAction SilentlyContinue 
+foreach($server in $serverlist)
+ {        
+Write-Host $server        
+New-PSSession -ComputerName $server        
+ Enter-PSSession -ComputerName $server    
+}  
+
+
+
+  #Question23 
+Get-Help Get-Service -ShowWindow 
+help Get-Service
+Man Get-Service Get-Help Get-Service -Detailed
+Get-Help Get-Service -Full  
+
+
+
+#Question27
+
+$usercred = Import-Clixml -Path "C:\Users\shivam.lamba\OneDrive - HCL Technologies Ltd\Desktop\pwd.xml"
+ $usercred
+ $usercred.UserName
+ $usercred.Password
+ $user = $usercred.UserName
+ $pwd = $usercred.Password
+ $credential = New-Object System.Management.Automation.PSCredential($user, $pwd)
+ $from = "shivamlamba350@outlook.com"
+ $to = "mohitsw2202@gmail.com"
+ $Attachments = "C:\Users\shivam.lamba\OneDrive - HCL Technologies Ltd\Desktop\Result.csv.txt"; "C:\Users\shivam.lamba\OneDrive - HCL Technologies Ltd\Desktop\Result.csv.txt"
+ $smtpserver = "smtp.outlook.com"
+ $smtpport = "587"
+ $subject = "Test Mail"
+ $body = "Task completed."
+ Send-MailMessage -From $from -To $to -Subject $subject -Body $body -Attachments $Attachments -SmtpServer $smtpserver -Port $smtpport -Credential $credential -UseSsl  

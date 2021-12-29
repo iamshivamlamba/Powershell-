@@ -1,0 +1,1 @@
+ Get-Credential | Export-Clixml -Path "C:\Users\shivam.lamba\OneDrive - HCL Technologies Ltd\Desktop\pwd.xml" 
